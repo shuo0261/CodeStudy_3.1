@@ -36,31 +36,36 @@ namespace CodeStudy_3._1
         {
             if (env.IsDevelopment())
             {
-
                 //UseDeveloperExceptionPage：如果存在异常并且环境是Development，此中间件会调用，显示开发异常界面
                 app.UseDeveloperExceptionPage();
-
             }
 
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("MW1:传入请求");
-                await next();
-                logger.LogInformation("MW1:传出响应");
-            });
-
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("MW2:传入请求");
-                await next();
-                logger.LogInformation("MW2:传出响应");
-            });
+            app.UseStaticFiles();
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("MW3:处理请求并生成响应");
-                logger.LogInformation("MW3:处理请求并生成响应");
+                await context.Response.WriteAsync("Hello World!");
             });
+
+            //app.Use(async (context, next) =>
+            //{
+            //    logger.LogInformation("MW1:传入请求");
+            //    await next();
+            //    logger.LogInformation("MW1:传出响应");
+            //});
+
+            //app.Use(async (context, next) =>
+            //{
+            //    logger.LogInformation("MW2:传入请求");
+            //    await next();
+            //    logger.LogInformation("MW2:传出响应");
+            //});
+
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("MW3:处理请求并生成响应");
+            //    logger.LogInformation("MW3:处理请求并生成响应");
+            //});
 
             //app.Run(async (context) =>
             //{

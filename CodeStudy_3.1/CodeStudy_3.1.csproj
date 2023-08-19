@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+	 <!--TargetFramework-->
+	 <!--指定目标的应用框架，在这里引入了一个Target Frameworek Moniker(TFM)，netcoreapp3.1代指的是.NET Core的绰号(Moniker)-->
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+	  
+    <RootNamespace>CodeStudy_3._1</RootNamespace>
+
+	  <!--AppendTargetFrameworkToOutputPath-->
+	  <!--是指当项目发布时，是否将项目版本号追加到指定的输出路径下，默认为空；生成项目时，会在指定的目录下创建与目标同名的文件夹，并将项目的发布文件作为这个指定框架名称的子文件夹-->
+
+	  <!--配置Inprocess-->
+	  <!--AspNetCoreHostingModel：指定托管ASP.NET Core的应用程序是Inprocess或OutOfProcess-->
+	  <!--Inprocess:指定要使用进程内托管模型，即在IIS工作进程(w3wp.exe)中托管ASP.NET Core应用程序-->
+	  <!--OutOfProcess：指定使用进程外托管模型，将web请求转发到运行Kesterel服务器的后端ASP.NET Core应用程序-->
+	  <!--创建新程序时，默认使用进程内托管模型-->
+	  <AspNetCoreHostingModel>Inprocess</AspNetCoreHostingModel>
+	  
+	  <UserSecretsId>ce29407a-ac5b-465e-8e4a-ff16bb256a33</UserSecretsId>
+
+	  <!--进程外托管模型-->
+	  <!--<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>-->
+	  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+</Project>

@@ -40,16 +40,22 @@ namespace CodeStudy_3._1
                 app.UseDeveloperExceptionPage();
             }
 
-            //添加一个静态网页为默认文件
-            DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
-            defaultFilesOptions.DefaultFileNames.Clear();
-            defaultFilesOptions.DefaultFileNames.Add("CodeStudy.html");
+            //UseFileServer()结合了UseStaticFiles()、UseDefaultFiles()、UseDirectoryBrowser()中间件的功能
+            FileServerOptions fileServerOptions = new FileServerOptions();
+            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
+            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("CodeStudy.html");
+            app.UseFileServer(fileServerOptions);
 
-            //添加默认文件中间件
-            app.UseDefaultFiles(defaultFilesOptions);
+            ////添加一个静态网页为默认文件
+            //DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
+            //defaultFilesOptions.DefaultFileNames.Clear();
+            //defaultFilesOptions.DefaultFileNames.Add("CodeStudy.html");
 
-            //添加静态文件中间件
-            app.UseStaticFiles();
+            ////添加默认文件中间件
+            //app.UseDefaultFiles(defaultFilesOptions);
+
+            ////添加静态文件中间件
+            //app.UseStaticFiles();
 
             app.Run(async (context) =>
             {

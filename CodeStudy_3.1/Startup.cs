@@ -26,6 +26,10 @@ namespace CodeStudy_3._1
         //ConfigureServices()方法配置应用程序所需要的服务
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddMvc(a=>a.EnableEndpointRouting=false);
+
+            //.NET  Core 3.0以后推荐到写法
+            services.AddControllersWithViews(a => a.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,17 +38,61 @@ namespace CodeStudy_3._1
         //项目启动时，Main()方法调用CreateDefaultBuilder()配置日志记录
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILogger<Startup> logger)
         {
+
             if (env.IsDevelopment())
             {
-                //UseDeveloperExceptionPage：如果存在异常并且环境是Development，此中间件会调用，显示开发异常界面
                 app.UseDeveloperExceptionPage();
             }
 
-            //UseFileServer()结合了UseStaticFiles()、UseDefaultFiles()、UseDirectoryBrowser()中间件的功能
-            FileServerOptions fileServerOptions = new FileServerOptions();
-            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
-            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("CodeStudy.html");
-            app.UseFileServer(fileServerOptions);
+            app.UseStaticFiles();
+
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Hello World!");
+            });
+
+
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+
+            ////使用纯静态文件支持的中间件，不使用终端中间件
+            //app.UseStaticFiles();
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hosting Environment："+env.EnvironmentName);
+            //});
+
+            //if (env.IsDevelopment())
+            //{
+            //    //DeveloperExceptionPageOptions()中间件要尽量放在其他中间件前面，否侧不会显示异常
+            //    //DeveloperExceptionPageOptions developerExceptionPageOptions = new DeveloperExceptionPageOptions
+            //    //{
+            //    //    //SourceCodeLineCount:确定显示引发异常代码的上方代码和下方代码行数
+            //    //    SourceCodeLineCount = 3
+            //    //};
+            //    //app.UseDeveloperExceptionPage(developerExceptionPageOptions);
+
+            //    //UseDeveloperExceptionPage：如果存在异常并且环境是Development，此中间件会调用，显示开发异常界面
+            //    app.UseDeveloperExceptionPage();
+            //}
+
+            //app.UseFileServer();
+
+            //app.Run(async (context) =>
+            //{
+            //    throw new Exception("读者的请求在管道中发生了一些异常，请检查。");
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
+
+            ////UseFileServer()结合了UseStaticFiles()、UseDefaultFiles()、UseDirectoryBrowser()中间件的功能
+            //FileServerOptions fileServerOptions = new FileServerOptions();
+            //fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
+            //fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("CodeStudy.html");
+            //app.UseFileServer(fileServerOptions);
 
             ////添加一个静态网页为默认文件
             //DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
@@ -57,10 +105,10 @@ namespace CodeStudy_3._1
             ////添加静态文件中间件
             //app.UseStaticFiles();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
 
             //app.Use(async (context, next) =>
             //{

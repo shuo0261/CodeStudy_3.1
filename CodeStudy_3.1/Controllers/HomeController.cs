@@ -2,19 +2,11 @@
 
 namespace CodeStudy_3._1.Controllers
 {
-
-    public class HomeController 
+    public class HomeController : Controller
     {
-        public string Index() 
+        public string Index()
         {
-            return "Hellow from MVC";
+            return "Hellow MVC";
         }
     }
-    //public class HomeController : Controller
-    //{
-    //    public IActionResult Index()
-    //    {
-    //        return View();
-    //    }
-    //}
 }

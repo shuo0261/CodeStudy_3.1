@@ -1,4 +1,5 @@
-﻿
+﻿@using CodeStudy_3._1.Model;
+
 @{
     Layout = null;
 }
@@ -11,6 +12,13 @@
     <title>Detailsview</title>
 </head>
 <body>
-    <h1>Detailsview</h1>
+    <h1>@ViewData["PageTile"]</h1>
+    @{
+        var student = ViewData["Student"] as Student;
+    }
+    <div>姓名：@student.Name</div>
+    <div>班级：@student.Calssroom</div>
+    <div>专业：@student.Major</div>
+    <div>邮箱：@student.Email</div>
 </body>
 </html>

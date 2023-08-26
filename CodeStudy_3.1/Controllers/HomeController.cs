@@ -27,11 +27,21 @@ namespace CodeStudy_3._1.Controllers
         public ViewResult Detailsview()
         {
             Student model = _studentRepository.GetStudent(1);
+            ViewData["PageTile"] = "Student Details";
+            ViewData["Student"] = model;
             return View(model);
         }
+        //自定义视图
         public IActionResult Details()
         {
-            return View();
+            //返回指定的视图文件
+            return View("Detailsview");
+
+            //返回指定路径的视图，使用绝对路径，要注意要加上.cshtml扩展名，推荐使用/就或者~/
+            //return View("MyViews/Test.cshtml");
+
+            //使用相对路径时，不用指定扩展名.cshtml，如果返回值在文件夹结构中超过了两个深度，要使用两次../
+            //return View("../Test/Update");
         }
     }
 }

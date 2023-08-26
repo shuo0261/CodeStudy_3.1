@@ -1,3 +1,4 @@
+using CodeStudy_3._1.DataRepositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,8 +29,13 @@ namespace CodeStudy_3._1
         {
             //services.AddMvc(a=>a.EnableEndpointRouting=false);
 
-            //.NET  Core 3.0以后推荐到写法
-            services.AddControllersWithViews(a => a.EnableEndpointRouting = false);
+            //.NET  Core 3.0以后推荐到写法 注入MVC（如果只使用MVC）
+             services.AddControllersWithViews(a => a.EnableEndpointRouting = false);
+
+            //使用依赖注入来注册服务，在这里注入IStudentRepository与MockStudentRepository，也可以在控制器里更改
+              services.AddSingleton<IStudentRepository, MockStudentRepository>();
+            //从数据库获取数据
+            //services.AddSingleton<IStudentRepository, DatabaseStudentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

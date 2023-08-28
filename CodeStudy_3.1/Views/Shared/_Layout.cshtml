@@ -15,5 +15,17 @@
     <div>
         @RenderBody()
     </div>
+
+    @*布局页部分可选
+    选项一： @RenderSection("自定义名称",required:false) required参数设置为False
+    选项二：    @if (IsSectionDefined("自定义名称"))
+    {
+    @RenderSection("Scripts",required:false)
+    }
+    *@
+    @if (IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts",required:false)
+    }
 </body>
 </html>

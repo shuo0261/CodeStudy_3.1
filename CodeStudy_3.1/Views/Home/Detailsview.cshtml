@@ -24,6 +24,11 @@
     <div>专业：@Model.student.Major</div>
     <div>邮箱：@Model.student.Email</div>
 
+@*使用@section 后面跟上自定义的名称，就可以使用使用布局页的部分使用的代码*@
+    @section Scripts{
+    <script src="~/js/customscript.js"></script>
+    }
+
     @*强类型视图传值*@
     @* <h3>@ViewBag.PageTitle</h3>
     <div>姓名：@Model.Name</div>

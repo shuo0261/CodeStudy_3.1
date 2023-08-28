@@ -1,5 +1,8 @@
 ﻿@using CodeStudy_3._1.Model;
-@model CodeStudy_3._1.Model.Student
+@* 强类型视图引入空间 *@
+@* @model CodeStudy_3._1.Model.Student *@
+@*ViewModel传值*@
+@model CodeStudy_3._1.ViewModel.HomeDetailsViewModel
 @{
     Layout = null;
 }
@@ -13,12 +16,19 @@
 </head>
 <body>
 
+    @*ViewModel传值*@
+    <h3>@Model.PageTiles</h3>
+    <div>姓名：@Model.student.Name</div>
+    <div>班级：@Model.student.Calssroom</div>
+    <div>专业：@Model.student.Major</div>
+    <div>邮箱：@Model.student.Email</div>
+
     @*强类型视图传值*@
-    <h3>@ViewBag.PageTitle</h3>
+    @* <h3>@ViewBag.PageTitle</h3>
     <div>姓名：@Model.Name</div>
     <div>班级：@Model.Calssroom</div>
     <div>专业：@Model.Major</div>
-    <div>邮箱：@Model.Email</div> 
+    <div>邮箱：@Model.Email</div>  *@
 
     @*ViewBag传值*@
     @* <h3>@ViewBag.PageTitle</h3>

@@ -1,7 +1,7 @@
 ﻿using CodeStudy_3._1.DataRepositories;
 using Microsoft.AspNetCore.Mvc;
 using CodeStudy_3._1.Model;
-
+using CodeStudy_3._1.ViewModel;
 
 namespace CodeStudy_3._1.Controllers
 {
@@ -26,10 +26,22 @@ namespace CodeStudy_3._1.Controllers
         }
         public ViewResult Detailsview()
         {
+            //使用ViewModel将数据传递给视图
+            //实例化HomeDetailsViewModel并存储Student详细信息和PageTiles
+            HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel()
+            {
+                student = _studentRepository.GetStudent(1),
+                PageTiles = "学生详细信息"
+            };
+            //将ViewModel对象传递给View()方法
+            return View(homeDetailsViewModel);
+            //在某些情况下，Model对象可能无法包含View所需要的全部数据，这个时候就可以使用ViewModel
+            //ViewModel会包含View所需要的所有数据;ViewModel类可以存在于ASP.NET Core MVC项目中的任何位置，但是为了方便管理，存于ViewModel文件夹里
+
             //强类型视图传值 提供编译时类型检查和智能提示，可以提高工作效率，减少拼写错误；强类型视图可以在编译时看到错误，而不用运行时看到；建议使用强类型视图将数据从控制器传到视图
-            Student model = _studentRepository.GetStudent(1);
-            ViewBag.PageTitle = "学生详情";
-            return View(model);
+            //Student model = _studentRepository.GetStudent(1);
+            //ViewBag.PageTitle = "学生详情";
+            //return View(model);
 
             //ViewBag视图传值
             //ViewBag.PageTitle = "学生详情";

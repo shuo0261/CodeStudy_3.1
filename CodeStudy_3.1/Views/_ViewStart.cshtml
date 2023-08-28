@@ -1,0 +1,17 @@
+﻿@*我们可以通过判断登录者是否为Admin来选择对应的布局视图*@
+@* @{
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "_AdminLayout";
+    }
+    else
+    {
+        Layout = "_NonAdminLayout";
+    }
+} *@
+@*ViewStart中的代码会在单个视图中的代码之前执行；移动公共代码到ViewStart,如给布局视图文件设置属性；
+  ViewStart减少了代码冗余，提高了可维护性；ViewStart文件支持分层
+*@
+@{
+    Layout = "_Layout";
+}

@@ -16,6 +16,12 @@ namespace CodeStudy_3._1.DataRepositories
                 new Student() { Id=3,Name="张三3",Calssroom="三年级",Major="计算机软件3",Email="12345@qq.com"},
             };
         }
+
+        public IEnumerable<Student> GetAllStudent()
+        {
+            return _studentList;
+        }
+
         public Student GetStudent(int id)
         {
             return _studentList.FirstOrDefault(a => a.Id == id);

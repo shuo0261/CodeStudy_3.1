@@ -14,10 +14,18 @@ namespace CodeStudy_3._1.Controllers
             //也可以直接更改控制器(下行代码)，但是不建议，因为每更改一次，就需要修改所有代码，维护比较困难，还是建议使用Startup.cs里使用依赖注入比较好
             //_studentRepository = new MockStudentRepository();
         }
-        public string Index()
-        {
-            return _studentRepository.GetStudent(1).Name;
+
+        public IActionResult Index() {
+            //查询所有学生信息
+            var model = _studentRepository.GetAllStudent();
+            //将学生列表传递到视图
+            return View(model);
         }
+        //返回字符串类型
+        //public string Index()
+        //{
+        //    return "Hellow ASP.NET Core MVC";
+        //}
 
         //返回json数据
         public JsonResult Detailsjson() {

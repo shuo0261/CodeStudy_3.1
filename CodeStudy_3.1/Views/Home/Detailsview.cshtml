@@ -1,5 +1,5 @@
 ﻿@using CodeStudy_3._1.Model;
-
+@model CodeStudy_3._1.Model.Student
 @{
     Layout = null;
 }
@@ -13,9 +13,22 @@
 </head>
 <body>
 
+    @*强类型视图传值*@
+    <h3>@ViewBag.PageTitle</h3>
+    <div>姓名：@Model.Name</div>
+    <div>班级：@Model.Calssroom</div>
+    <div>专业：@Model.Major</div>
+    <div>邮箱：@Model.Email</div> 
+
+    @*ViewBag传值*@
+    @* <h3>@ViewBag.PageTitle</h3>
+    <div>姓名：@ViewBag.student.Name</div>
+    <div>班级：@ViewBag.student.Calssroom</div>
+    <div>专业：@ViewBag.student.Major</div>
+    <div>邮箱：@ViewBag.student.Email</div>  *@
 
     @*ViewData传值*@
-    @* <h1>@ViewData["PageTile"]</h1>
+    @* <h3>@ViewData["PageTile"]</h3>
     @{
         var student = ViewData["Student"] as Student;
     }

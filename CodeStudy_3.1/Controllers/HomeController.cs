@@ -26,14 +26,27 @@ namespace CodeStudy_3._1.Controllers
         }
         public ViewResult Detailsview()
         {
+            //强类型视图传值 提供编译时类型检查和智能提示，可以提高工作效率，减少拼写错误；强类型视图可以在编译时看到错误，而不用运行时看到；建议使用强类型视图将数据从控制器传到视图
+            Student model = _studentRepository.GetStudent(1);
+            ViewBag.PageTitle = "学生详情";
+            return View(model);
 
-            return View();
+            //ViewBag视图传值
+            //ViewBag.PageTitle = "学生详情";
+            //ViewBag.Student = model;
+            //return View();
 
             //使用ViewData将PageTile和Student模型传值给View
-            //Student model = _studentRepository.GetStudent(1);
             //ViewData["PageTile"] = "Student Details";
             //ViewData["Student"] = model;
             //return View(model);
+
+            //ViewData与ViewBag对比
+            //ViewData与ViewBag两者都可以从控制器传递数据到视图，都是创建弱类型的视图
+            //ViewBag是ViewData的包装器
+            //ViewData使用字符串键来存储和查询ViewData字典中的数据；ViewBag使用动态属性来存储和查询数据
+            //ViewData与ViewBag都是在运行时动态解析，不提供编译时类型检查
+
             //ViewData是弱类型的字典（dictionary）对象，使用String类型的键值对存储和查询ViewData字典中的数据，可以从ViewData字典直接访问数据，无需将数据转为string类型
             //如果访问是任何其他类型的数据，则需要显式转换为需要的类型
             //ViewData在运行时会进行动态解析，不提供编译时类型检查，这会导致编写代码的速度降低，拼写错误和打错的可能性也会增大。这些错误只会在项目运行时提示出来，所以我们通常不使用ViewData

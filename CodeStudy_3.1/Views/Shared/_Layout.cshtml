@@ -1,0 +1,19 @@
+﻿@*
+    布局视图可以让WEB应用程序中所有的视图保持外观一致；看起来像ASP.NET WebForm中的母版页
+    布局视图也具有.cshtml扩展名；ASP.NET Core中，布局页默认名称为_Layout.cshtml;其通常放在View/Shared文件夹里
+    在一个应用程序中可以包含多个布局页视图
+*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

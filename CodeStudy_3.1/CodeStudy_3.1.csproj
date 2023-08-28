@@ -18,6 +18,8 @@
 	  <AspNetCoreHostingModel>Inprocess</AspNetCoreHostingModel>
 	  
 	  <UserSecretsId>ce29407a-ac5b-465e-8e4a-ff16bb256a33</UserSecretsId>
+	  
+	  <OutputType>Exe</OutputType>
 
 	  <!--进程外托管模型-->
 	  <!--<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>-->

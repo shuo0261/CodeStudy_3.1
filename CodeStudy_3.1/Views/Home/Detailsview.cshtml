@@ -12,13 +12,16 @@
     <title>Detailsview</title>
 </head>
 <body>
-    <h1>@ViewData["PageTile"]</h1>
+
+
+    @*ViewData传值*@
+    @* <h1>@ViewData["PageTile"]</h1>
     @{
         var student = ViewData["Student"] as Student;
     }
     <div>姓名：@student.Name</div>
     <div>班级：@student.Calssroom</div>
     <div>专业：@student.Major</div>
-    <div>邮箱：@student.Email</div>
+    <div>邮箱：@student.Email</div> *@
 </body>
 </html>

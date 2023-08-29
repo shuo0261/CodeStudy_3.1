@@ -30,10 +30,12 @@ namespace CodeStudy_3._1
             //services.AddMvc(a=>a.EnableEndpointRouting=false);
 
             //.NET  Core 3.0以后推荐到写法 注入MVC（如果只使用MVC）
-             services.AddControllersWithViews(a => a.EnableEndpointRouting = false);
+            services.AddControllersWithViews(a => a.EnableEndpointRouting = false);
+            //app.UseMvc()不支持Routing Endpoints,要继续使用UseMVC中间件需要将EnableEndpointRouting设置为False
+            //services.AddControllersWithViews().AddXmlSerializerFormatters();
 
             //使用依赖注入来注册服务，在这里注入IStudentRepository与MockStudentRepository，也可以在控制器里更改
-              services.AddSingleton<IStudentRepository, MockStudentRepository>();
+            services.AddSingleton<IStudentRepository, MockStudentRepository>();
             //从数据库获取数据
             //services.AddSingleton<IStudentRepository, DatabaseStudentRepository>();
         }
@@ -52,12 +54,26 @@ namespace CodeStudy_3._1
 
             app.UseStaticFiles();
 
+            app.UseMvc();
+
             app.UseMvcWithDefaultRoute();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //UseEndpoints(官方命名为终结点路由，dotnet开发团队推荐使用)可以处理跨不同中间件系统(如MVC、RazorPages、Blazor、SignalR和gRPC)的路由系统
+            //通过终结点路由可以使端点相互协作，并使系统比没有相互对话的终端中间件更全面
+            //app.UseStaticFiles();
+            //app.UseRouting();
+            //app.UseEndpoints(endpoint => {
+            //    endpoint.MapControllerRoute(
+            //       name: "default",
+            //       pattern: "{controller=Home}/{action=Index}/{id?}"
+            //        );
+            //    });
+
+
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
 
 
             //if (env.IsDevelopment())

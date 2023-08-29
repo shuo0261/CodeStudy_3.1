@@ -14,7 +14,15 @@ namespace CodeStudy_3._1.Controllers
             //也可以直接更改控制器(下行代码)，但是不建议，因为每更改一次，就需要修改所有代码，维护比较困难，还是建议使用Startup.cs里使用依赖注入比较好
             //_studentRepository = new MockStudentRepository();
         }
+        //[Route（"自定义内容"）]即为属性路由
+        //[Route("")]
+        //[Route("Home")]
+        //[Route("Home/Index")]
 
+        /*属性路由使用Route来定义；属性路由可以应用于控制器或者控制器中的操作方法上；使用属性路由时需要设置在实际使用的操作方法上方
+        //属性路由比传统路由更灵活；支持层级目录；如果操作上方的路由模板以'/'，'~/'开头，则控制器的路由模板不会与操作方法的路由模板组合在一起
+         重命名控制器或者操作方法的名称不需要修改路由模板规则；通常情况下，传统路由服务于HTML页面的控制器，属性路由服务于RESTful API的控制器*/
+        //
         public IActionResult Index() {
             //查询所有学生信息
             var model = _studentRepository.GetAllStudent();
@@ -32,13 +40,16 @@ namespace CodeStudy_3._1.Controllers
             Student model = _studentRepository.GetStudent(1);
             return Json(model);
         }
-        public ViewResult Detailsview()
+
+        //[Route("Home/Detailsview/{id?}")]
+        public ViewResult Detailsview(int?id)
         {
             //使用ViewModel将数据传递给视图
             //实例化HomeDetailsViewModel并存储Student详细信息和PageTiles
             HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel()
             {
-                student = _studentRepository.GetStudent(1),
+                student = _studentRepository.GetStudent(id ?? 1),
+                //student = _studentRepository.GetStudent(id??1),
                 PageTiles = "学生详细信息"
             };
             //将ViewModel对象传递给View()方法
@@ -61,16 +72,16 @@ namespace CodeStudy_3._1.Controllers
             //ViewData["Student"] = model;
             //return View(model);
 
-            //ViewData与ViewBag对比
-            //ViewData与ViewBag两者都可以从控制器传递数据到视图，都是创建弱类型的视图
-            //ViewBag是ViewData的包装器
-            //ViewData使用字符串键来存储和查询ViewData字典中的数据；ViewBag使用动态属性来存储和查询数据
-            //ViewData与ViewBag都是在运行时动态解析，不提供编译时类型检查
+            /*ViewData与ViewBag对比
+            ViewData与ViewBag两者都可以从控制器传递数据到视图，都是创建弱类型的视图
+            ViewBag是ViewData的包装器
+            ViewData使用字符串键来存储和查询ViewData字典中的数据；ViewBag使用动态属性来存储和查询数据
+            ViewData与ViewBag都是在运行时动态解析，不提供编译时类型检查*/
 
-            //ViewData是弱类型的字典（dictionary）对象，使用String类型的键值对存储和查询ViewData字典中的数据，可以从ViewData字典直接访问数据，无需将数据转为string类型
-            //如果访问是任何其他类型的数据，则需要显式转换为需要的类型
-            //ViewData在运行时会进行动态解析，不提供编译时类型检查，这会导致编写代码的速度降低，拼写错误和打错的可能性也会增大。这些错误只会在项目运行时提示出来，所以我们通常不使用ViewData
-            //当使用VieewData时，我们最终会创建一个弱类型的视图
+            /*ViewData是弱类型的字典（dictionary）对象，使用String类型的键值对存储和查询ViewData字典中的数据，可以从ViewData字典直接访问数据，无需将数据转为string类型
+            如果访问是任何其他类型的数据，则需要显式转换为需要的类型
+            ViewData在运行时会进行动态解析，不提供编译时类型检查，这会导致编写代码的速度降低，拼写错误和打错的可能性也会增大。这些错误只会在项目运行时提示出来，所以我们通常不使用ViewData
+            当使用VieewData时，我们最终会创建一个弱类型的视图*/
         }
         //自定义视图
         public IActionResult Details()

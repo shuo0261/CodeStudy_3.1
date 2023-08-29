@@ -16,14 +16,15 @@
             <div class="card-header">
                 <h1>@Model.student.Name</h1>
             </div>
-            <div class="card-img-top" src=" ~ /images/image1.png">
+            <div class="card-img-top text-center">
+                <img class="card-img-top" src="~/images/image1.png">
                 <h4>学生ID:@Model.student.Id</h4>
                 <h4>班级：@Model.student.Calssroom</h4>
                 <h4>专业：@Model.student.Major</h4>
                 <h4>邮箱：@Model.student.Email</h4>
             </div>
             <div class="card-footer text-center">
-                <a href="#" class="bth btn-primary">返回</a>
+                <a href="Index" class="bth btn-primary">返回</a>
                 <a href="#" class="bth btn-primary">编辑</a>
                 <a href="#" class="bth btn-danger">删除</a>
             </div>

@@ -4,6 +4,27 @@
     ViewBag.Title = "学生列表页";
 }
 
+<div class="card-deck">
+    @foreach(var student in Model)
+    {
+        <div class="card m-3">
+            <div class="card-header">
+                <h3 class="card-title">@student.Name</h3>
+            </div>
+            <img class="card-img-top" src="~/images/image1.png">
+            <div class="card-body text-center">
+                <h5>专业:@student.Major</h5>
+            </div>
+
+            <div class="card-footer text-center">
+                <a href="#" class="bth btn-primary">返回</a>
+                <a href="#" class="bth btn-primary">编辑</a>
+                <a href="#" class="bth btn-danger">删除</a>
+            </div>
+        </div>
+    }
+</div>
+
 @* <!DOCTYPE html>
 
 <html>
@@ -12,7 +33,7 @@
     <title>学生页面详情</title>
 </head>
 <body> *@
-    <table>
+    @* <table>
         <thead>
             <tr>
                 <th>ID</th>
@@ -34,6 +55,6 @@
                 </tr>
             }
         </tbody>
-    </table>
+    </table> *@
 @* </body>
 </html> *@

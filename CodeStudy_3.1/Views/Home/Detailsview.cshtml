@@ -9,6 +9,28 @@
     ViewBag.Title = "学生详情页";
 }
 
+<h3>@Model.PageTiles</h3>
+<div class="row justify-content-center m-3">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.student.Name</h1>
+            </div>
+            <div class="card-img-top" src=" ~ /images/image1.png">
+                <h4>学生ID:@Model.student.Id</h4>
+                <h4>班级：@Model.student.Calssroom</h4>
+                <h4>专业：@Model.student.Major</h4>
+                <h4>邮箱：@Model.student.Email</h4>
+            </div>
+            <div class="card-footer text-center">
+                <a href="#" class="bth btn-primary">返回</a>
+                <a href="#" class="bth btn-primary">编辑</a>
+                <a href="#" class="bth btn-danger">删除</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 @* <!DOCTYPE html>
 
 <html>
@@ -19,11 +41,11 @@
 <body> *@
 
     @*ViewModel传值*@
-    <h3>@Model.PageTiles</h3>
+@*     <h3>@Model.PageTiles</h3>
     <div>姓名：@Model.student.Name</div>
     <div>班级：@Model.student.Calssroom</div>
     <div>专业：@Model.student.Major</div>
-    <div>邮箱：@Model.student.Email</div>
+    <div>邮箱：@Model.student.Email</div> *@
 
 @*使用@section 后面跟上自定义的名称，就可以使用使用布局页的部分使用的代码*@
     @section Scripts{

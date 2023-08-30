@@ -7,5 +7,6 @@ namespace CodeStudy_3._1.DataRepositories
     {
         Student GetStudent(int id);
         IEnumerable<Student> GetAllStudent();
+        Student Add(Student student);
     }
 }

@@ -20,20 +20,14 @@ namespace CodeStudy_3._1.Controllers
         //[Route("Home/Index")]
 
         /*属性路由使用Route来定义；属性路由可以应用于控制器或者控制器中的操作方法上；使用属性路由时需要设置在实际使用的操作方法上方
-        //属性路由比传统路由更灵活；支持层级目录；如果操作上方的路由模板以'/'，'~/'开头，则控制器的路由模板不会与操作方法的路由模板组合在一起
-         重命名控制器或者操作方法的名称不需要修改路由模板规则；通常情况下，传统路由服务于HTML页面的控制器，属性路由服务于RESTful API的控制器*/
-        //
+          属性路由比传统路由更灵活；支持层级目录；如果操作上方的路由模板以'/'，'~/'开头，则控制器的路由模板不会与操作方法的路由模板组合在一起
+          重命名控制器或者操作方法的名称不需要修改路由模板规则；通常情况下，传统路由服务于HTML页面的控制器，属性路由服务于RESTful API的控制器*/
         public IActionResult Index() {
             //查询所有学生信息
             var model = _studentRepository.GetAllStudent();
             //将学生列表传递到视图
             return View(model);
         }
-        //返回字符串类型
-        //public string Index()
-        //{
-        //    return "Hellow ASP.NET Core MVC";
-        //}
 
         //返回json数据
         public JsonResult Detailsjson() {
@@ -41,14 +35,28 @@ namespace CodeStudy_3._1.Controllers
             return Json(model);
         }
 
+        [HttpGet]
+        public IActionResult Create() {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Student student) {
+            /*在属性里添加Required后会判断值，如果为空或者不存在，就会验证失败，ModelState.IsValid属性会检查验证是否成功*/
+            if (ModelState.IsValid) {
+                Student newstudent = _studentRepository.Add(student);
+                return RedirectToAction("Detailsview", new { id = newstudent.Id });
+            }
+            return View();
+        }
+
         //[Route("Home/Detailsview/{id?}")]
-        public ViewResult Detailsview(int?id)
+        public ViewResult Detailsview(int id)
         {
             //使用ViewModel将数据传递给视图
             //实例化HomeDetailsViewModel并存储Student详细信息和PageTiles
             HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel()
             {
-                student = _studentRepository.GetStudent(id ?? 1),
+                student = _studentRepository.GetStudent(id),
                 //student = _studentRepository.GetStudent(id??1),
                 PageTiles = "学生详细信息"
             };
@@ -95,5 +103,10 @@ namespace CodeStudy_3._1.Controllers
             //使用相对路径时，不用指定扩展名.cshtml，如果返回值在文件夹结构中超过了两个深度，要使用两次../
             //return View("../Test/Update");
         }
+        //返回字符串类型
+        //public string Details()
+        //{
+        //    return "Hellow ASP.NET Core MVC";
+        //}
     }
 }

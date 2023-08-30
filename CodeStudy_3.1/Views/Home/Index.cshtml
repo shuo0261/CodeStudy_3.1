@@ -11,13 +11,21 @@
             <div class="card-header">
                 <h3 class="card-title">@student.Name</h3>
             </div>
-            <img class="card-img-top" src="~/images/image1.png">
+            <img class="card-img-top" src="~/images/image1.png" asp-append-version="true">
             <div class="card-body text-center">
                 <h5>专业:@student.Major</h5>
             </div>
 
             <div class="card-footer text-center">
-                <a href="#" class="bth btn-primary">返回</a>
+                @*手动生成链接*@
+                @*  <a href="/Home/Detailsview/@student.Id" class="bth btn-primary">查看</a> *@
+                @*使用HTML TagHelper*@
+                @* @Html.ActionLink("查看","Detailsview",new{id=student.Id}) *@
+                @*使用TagHelper  TagHelper根据应用程序的路由模板生成的链接，所以会根据路由模板所做的更改自动修改和适配
+                asp-controller指定控制器名称； 
+                asp-action指定要包含在生成的href属性值的操作方法的名称；
+                asp-route-{value}属性用于在生成的href中包含路由数据属性值*@
+                <a asp-controller="Home" asp-action="Detailsview" asp-route-Id="@student.Id" class="bth btn-primary">查看</a>
                 <a href="Detailsview" class="bth btn-primary">编辑</a>
                 <a href="#" class="bth btn-danger">删除</a>
             </div>

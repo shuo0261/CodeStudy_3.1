@@ -9,7 +9,19 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <environment include="Development">
+        <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+              href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/twitter-bootstrap/css/bootstrap.css.map" asp-fallback-test-class="sr-only" asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute"
+        >
+ 
+        @*link里的integrity属性用于检查子资源完整性，Subresource Integrity(SRI)是一种安全功能，允许浏览器检查被检索的文件是否被恶意篡改*@
+    </environment>
+
     <link href="~/css/site.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
@@ -25,6 +37,8 @@
     @RenderSection("Scripts",required:false)
     }
     *@
+
+    <script src="~/lib/jquery/jquery.js"></script>
     @if (IsSectionDefined("Scripts"))
     {
         @RenderSection("Scripts",required:false)

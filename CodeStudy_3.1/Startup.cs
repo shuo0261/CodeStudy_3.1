@@ -1,7 +1,10 @@
 using CodeStudy_3._1.DataRepositories;
+using CodeStudy_3._1.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,15 +21,19 @@ namespace CodeStudy_3._1
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 
-        //private IConfiguration _configuration;
-        //public Startup(IConfiguration configuration) 
-        //{
-        //    _configuration = configuration;
-        //}
+        private IConfiguration _configuration;
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         //ConfigureServices()方法配置应用程序所需要的服务
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //Entity Framework Core链接SQL server数据库，通过IConfiguration去访问获取，自定义名称的Mock，StudentDBContext作为我们的连接字符串
+            //AddDbContext()与AddDbContextPool()方法的区别在于AddDbContextPool()方法提供了数据库连接池(DbContextPool)，而且AddDbContextPool()方法的性能优于AddDbContext()方法
+            services.AddDbContextPool<AppDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("MockStudentDBContext")));
             //services.AddMvc(a=>a.EnableEndpointRouting=false);
 
             //.NET  Core 3.0以后推荐到写法 注入MVC（如果只使用MVC）
@@ -36,9 +43,10 @@ namespace CodeStudy_3._1
             //services.AddControllersWithViews().AddXmlSerializerFormatters();
 
             //使用依赖注入来注册服务，在这里注入IStudentRepository与MockStudentRepository，也可以在控制器里更改
-            services.AddSingleton<IStudentRepository, MockStudentRepository>();
+            //services.AddSingleton<IStudentRepository, MockStudentRepository>();
+
             //从数据库获取数据
-            //services.AddSingleton<IStudentRepository, DatabaseStudentRepository>();
+            services.AddScoped<IStudentRepository, SQLStudentRePository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,4 @@
-﻿@using CodeStudy_3._1.Model.EnumTypes;
+﻿@inject IStudentRepository _istudentRepository
 @model Student
 @{
     ViewData["Title"] = "创建学生信息";
@@ -15,14 +15,20 @@
     <div class="form-group row">
         <label asp-for="Calssroom" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <select asp-for="Calssroom" class="custom-select mr-sm-2" asp-items="Html.GetEnumSelectList(typeof(ClassroomEnum))"></select>
+            <select asp-for="Calssroom" class="custom-select mr-sm-2" asp-items="Html.GetEnumSelectList(typeof(ClassroomEnum))">
+                <option value="">请选择</option>
+            </select>
+            <span asp-validation-for="Major" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group row">
         <label asp-for="Major" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <select asp-for="Major" class="custom-select mr-sm-2" asp-items="Html.GetEnumSelectList(typeof(MajorEnum))"></select>
+            <select asp-for="Major" class="custom-select mr-sm-2" asp-items="Html.GetEnumSelectList(typeof(MajorEnum))">
+                <option value="">请选择</option>
+            </select>
+            <span asp-validation-for="Major" class="text-danger"></span>
         </div>
     </div>
 
@@ -37,6 +43,12 @@
     <div class="form-group row">
         <div class="col-sm-10">
             <button type="submit" class="bth btn-primary">创建</button>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-10">
+            学生总人数=@_istudentRepository.GetAllStudent().Count().ToString()
         </div>
     </div>
 </form>

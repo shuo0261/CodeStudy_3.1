@@ -31,6 +31,7 @@ namespace CodeStudy_3._1
 
             //.NET  Core 3.0以后推荐到写法 注入MVC（如果只使用MVC）
             services.AddControllersWithViews(a => a.EnableEndpointRouting = false);
+
             //app.UseMvc()不支持Routing Endpoints,要继续使用UseMVC中间件需要将EnableEndpointRouting设置为False
             //services.AddControllersWithViews().AddXmlSerializerFormatters();
 

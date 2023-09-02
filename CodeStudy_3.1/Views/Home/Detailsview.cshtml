@@ -7,6 +7,7 @@
 @{
     //Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "学生详情页";
+    var photoPath = "~/images/" + (Model.student.PhotoPath ?? "image1.png");
 }
 
 <h3>@Model.PageTiles</h3>
@@ -17,7 +18,7 @@
                 <h1>@Model.student.Name</h1>
             </div>
             <div class="card-img-top text-center">
-                <img class="card-img-top" src="~/images/image1.png">
+                <img class="card-img-top" src="@photoPath" asp-append-version="true">
                 <h4>学生ID:@Model.student.Id</h4>
                 <h4>班级：@Model.student.Calssroom</h4>
                 <h4>专业：@Model.student.Major</h4>

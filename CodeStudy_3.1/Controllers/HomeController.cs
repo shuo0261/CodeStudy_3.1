@@ -2,17 +2,23 @@
 using Microsoft.AspNetCore.Mvc;
 using CodeStudy_3._1.Model;
 using CodeStudy_3._1.ViewModel;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System;
 
 namespace CodeStudy_3._1.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly IWebHostEnvironment webHostEnvironment;
+
         //使用构造函数注入的方法注入IStudentRepository
-        public HomeController(IStudentRepository studentRepository) {
+        public HomeController(IStudentRepository studentRepository,IWebHostEnvironment webHostEnvironment) {
             _studentRepository = studentRepository;
             //也可以直接更改控制器(下行代码)，但是不建议，因为每更改一次，就需要修改所有代码，维护比较困难，还是建议使用Startup.cs里使用依赖注入比较好
             //_studentRepository = new MockStudentRepository();
+            this.webHostEnvironment = webHostEnvironment;
         }
         //[Route（"自定义内容"）]即为属性路由
         //[Route("")]
@@ -40,17 +46,40 @@ namespace CodeStudy_3._1.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Student student) {
-            /*在属性里添加Required后会判断值，如果为空或者不存在，就会验证失败，ModelState.IsValid属性会检查验证是否成功*/
+        public IActionResult Create(StudentCreteViewModel model)
+        {
             if (ModelState.IsValid) {
-                Student newstudent = _studentRepository.Add(student);
+                string uniqueFileName = null;
+                if (model.PhotoPath != null) {
+                    string uploadsFoldex = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.PhotoPath.FileName;
+                    string filePath = Path.Combine(uploadsFoldex, uniqueFileName);
+                    model.PhotoPath.CopyTo(new FileStream(filePath, FileMode.Create));
+                        }
+                Student newstudent = new Student
+                {
+                    Name = model.Name,
+                    Calssroom = model.Calssroom,
+                    Major = model.Major,
+                    Email = model.Email,
+                    PhotoPath = uniqueFileName
+                };
+                _studentRepository.Add(newstudent);
                 return RedirectToAction("Detailsview", new { id = newstudent.Id });
             }
             return View();
         }
+            /*public IActionResult Create(Student student) {
+                /*在属性里添加Required后会判断值，如果为空或者不存在，就会验证失败，ModelState.IsValid属性会检查验证是否成功*/
+            /*if (ModelState.IsValid) {
+                Student newstudent = _studentRepository.Add(student);
+                return RedirectToAction("Detailsview", new { id = newstudent.Id });
+            }
+            return View();
+        }*/
 
-        //[Route("Home/Detailsview/{id?}")]
-        public ViewResult Detailsview(int id)
+            //[Route("Home/Detailsview/{id?}")]
+            public ViewResult Detailsview(int id)
         {
             //使用ViewModel将数据传递给视图
             //实例化HomeDetailsViewModel并存储Student详细信息和PageTiles

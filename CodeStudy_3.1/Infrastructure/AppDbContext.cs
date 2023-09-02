@@ -1,4 +1,5 @@
 ﻿using CodeStudy_3._1.Model;
+using CodeStudy_3._1.Model.EnumTypes;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeStudy_3._1.Infrastructure
@@ -13,5 +14,12 @@ namespace CodeStudy_3._1.Infrastructure
         }
         /*DbContext类里包括一个DbSet<Tentity>模型，其中会包含一个实体属性；需要使用DbSet的属性来查询和保存类的实例*/
         public DbSet<Student> Students { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Seed();
+        }
+
+
     }
 }

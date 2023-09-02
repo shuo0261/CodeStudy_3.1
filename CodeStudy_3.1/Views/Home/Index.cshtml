@@ -7,11 +7,12 @@
 <div class="card-deck">
     @foreach(var student in Model)
     {
+        var photoPath = "~/images/" + (student.PhotoPath ?? "image1.png");
         <div class="card m-3">
             <div class="card-header">
                 <h3 class="card-title">@student.Name</h3>
             </div>
-            <img class="card-img-top" src="~/images/image1.png" asp-append-version="true">
+            <img class="card-img-top" src="@photoPath" asp-append-version="true">
             <div class="card-body text-center">
                 <h5>专业:@student.Major</h5>
             </div>
@@ -26,7 +27,7 @@
                 asp-action指定要包含在生成的href属性值的操作方法的名称；
                 asp-route-{value}属性用于在生成的href中包含路由数据属性值*@
                 <a asp-controller="Home" asp-action="Detailsview" asp-route-Id="@student.Id" class="bth btn-primary m-1">查看</a>
-                <a href="#" class="bth btn-primary m-1">编辑</a>
+                <a asp-controller="Home" asp-action="Edit" asp-route-Id="@student.Id" class="bth btn-primary m-1">编辑</a>
                 <a href="#" class="bth btn-danger m-1">删除</a>
             </div>
         </div>

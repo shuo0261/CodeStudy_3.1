@@ -35,11 +35,36 @@ namespace CodeStudy_3._1.Controllers
             return View(model);
         }
 
-        //返回json数据
-        public JsonResult Detailsjson() {
-            Student model = _studentRepository.GetStudent(1);
-            return Json(model);
+        [HttpGet]
+        public IActionResult Edit(int id) {
+            Student student = _studentRepository.GetStudent(id);
+            StudentEditViewModel studentEditViewModel = new StudentEditViewModel()
+            {
+                Id = student.Id,
+                Name = student.Name,
+                Calssroom = student.Calssroom,
+                Major = student.Major,
+                Email = student.Email,
+                ExistringPhotoPath = student.PhotoPath
+            };
+            return View(studentEditViewModel);
         }
+
+        //[HttpPost]
+        public IActionResult Delte(int id) {
+            Student student = _studentRepository.GetStudent(id);
+            if (student != null)
+            {
+                 _studentRepository.Delete(id);
+                //删除后刷新页面，可以使用return RedirectToAction("ActionName")方法来实现
+                return RedirectToAction("Index");
+            }
+            else {
+                ViewBag.ErrorMessage = $"未找到Id为{id}的学生";
+                return View("Index");
+            }
+        }
+
 
         [HttpGet]
         public IActionResult Create() {
@@ -137,6 +162,14 @@ namespace CodeStudy_3._1.Controllers
             ViewData在运行时会进行动态解析，不提供编译时类型检查，这会导致编写代码的速度降低，拼写错误和打错的可能性也会增大。这些错误只会在项目运行时提示出来，所以我们通常不使用ViewData
             当使用VieewData时，我们最终会创建一个弱类型的视图*/
         }
+
+        //返回json数据
+        public JsonResult Detailsjson()
+        {
+            Student model = _studentRepository.GetStudent(1);
+            return Json(model);
+        }
+
         //自定义视图
         public IActionResult Details()
         {

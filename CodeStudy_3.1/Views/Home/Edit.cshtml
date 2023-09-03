@@ -1,0 +1,88 @@
+﻿@model StudentEditViewModel;
+@{
+    ViewData["Title"] = "学生信息编辑";
+   // Layout = "~/Views/Shared/_Layout.cshtml";
+    var photoPath = "~/images/image1.png";
+    if (Model.ExistringPhotoPath!=null)
+    {
+        photoPath = "~/images/" + Model.ExistringPhotoPath;
+    }
+}
+
+<form enctype="multipart/form-data" asp-controller="Home" asp-action="Edit" method="post" class="mt-3">
+    <input hidden asp-for="Id"/>
+    <input hidden asp-for="ExistringPhotoPath" />
+    <div class="form-group row">
+        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Name" class="form-control" placeholder="请输入名字" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Calssroom" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="Calssroom" class="custom-select mr-sm-2" asp-items="Html.GetEnumSelectList(typeof(ClassroomEnum))">
+                <option value="">请选择</option>
+            </select>
+            <span asp-validation-for="Major" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Major" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="Major" class="custom-select mr-sm-2" asp-items="Html.GetEnumSelectList(typeof(MajorEnum))">
+                <option value="">请选择</option>
+            </select>
+            <span asp-validation-for="Major" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Email" class="form-control" placeholder="请输入邮箱" />
+            <span asp-validation-for="PhotoPath" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="PhotoPath" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                <input asp-for="PhotoPath" class="form-control custom-file-input" />
+                <label class="custom-file-label">请选择图片...</label>
+            </div>
+        </div>
+    </div> 
+    @*显示头像*@
+    <div class="form-group row  col-sm-4 offset-4">
+         <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="bth btn-primary">更新</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">取消</a>
+        </div>
+    </div>
+
+
+    @* 下面的JavaScript代码作用是让上传标签中显示选定的上传文件名称*@
+    @section Scripts{
+    <script type="text/javascript">
+        @*单文件上传，显示文件名称*@
+        $(document).ready(function(){
+            $(".custom-file-input").on("change",function(){
+                console.log($(this)).val();
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next(".custom-file-label").html(fileName);
+            });
+        });
+
+    </script>
+    }
+</form>
+

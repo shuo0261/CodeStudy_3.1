@@ -28,7 +28,7 @@
                 asp-route-{value}属性用于在生成的href中包含路由数据属性值*@
                 <a asp-controller="Home" asp-action="Detailsview" asp-route-Id="@student.Id" class="bth btn-primary m-1">查看</a>
                 <a asp-controller="Home" asp-action="Edit" asp-route-Id="@student.Id" class="bth btn-primary m-1">编辑</a>
-                <a href="#" class="bth btn-danger m-1">删除</a>
+                <a asp-controller="Home" asp-action="Delte" asp-route-Id="@student.Id" class="bth btn-danger m-1">删除</a>
             </div>
         </div>
     }

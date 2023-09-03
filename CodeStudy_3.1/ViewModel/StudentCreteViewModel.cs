@@ -7,7 +7,7 @@ namespace CodeStudy_3._1.ViewModel
 {
     public class StudentCreteViewModel
     {
-        public int Id { get; set; }
+       // public int Id { get; set; }
         [Display(Name = "名字")]
         [Required(ErrorMessage = "请输入名字，它不能为空"), MaxLength(20, ErrorMessage = "名字的长度不能超过20个字符")] //Required可以使字段成为必填项
         public string Name { get; set; }

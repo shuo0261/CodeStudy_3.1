@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "创建学生信息";
 }
+@*上传图片时要将form表单添加属性enctype="multipart/form-data"*@
 <form enctype="multipart/form-data" asp-controller="Home" asp-action="Create" method="post" class="mt-3">
     <div class="form-group row">
         <label asp-for="Name" class="col-sm-2 col-form-label"></label>
@@ -41,7 +42,21 @@
         </div>
     </div>
 
+    @*我们使用asp-for的TagHelper设置input的属性为PhotoPath；PhotoPath属性类型是List<IFormFile>，所以在运行ASP.NEt Core会将该标签生成上传控件(input type=file)
+       要支持多个文件上传，需要multiple属性支持*@
+       @*单个文件上传*@
     <div class="form-group row">
+        <label asp-for="PhotoPath" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                <input asp-for="PhotoPath" class="form-control custom-file-input" />
+                <label class="custom-file-label">请选择图片...</label>
+            </div>
+        </div>
+    </div> 
+
+    @*多个文件上传*@
+    @*<div class="form-group row">
         <label asp-for="PhotoPath" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
             <div class="custom-file">
@@ -49,7 +64,7 @@
                 <label class="custom-file-label">请选择图片...</label>
             </div>
         </div>
-    </div>
+    </div>*@
 
     <div class="form-group row">
         <div class="col-sm-10">
@@ -66,12 +81,30 @@
     @* 下面的JavaScript代码作用是让上传标签中显示选定的上传文件名称*@
     @section Scripts{
     <script type="text/javascript">
+        @*单文件上传，显示文件名称*@
         $(document).ready(function(){
             $(".custom-file-input").on("change",function(){
+                console.log($(this)).val();
                 var fileName = $(this).val().split("\\").pop();
                 $(this).next(".custom-file-label").html(fileName);
             });
         });
+
+        @*多文件上传，显示文件数量；单文件上传，显示文件名称*@
+           @* $(document).ready(function(){
+            $(".custom-file-input").on("change",function(){
+                //console.log($(this));
+                var fileLabel = $(this).next(".custom-file-label");
+                var files = $(this)[0].files;
+                if (files.length > 1) {
+                    fileLabel.html("你选择了：" + files.length + "个文件");
+                } else if(files.length==1){ 
+                    fileLabel.html(files[0].name);
+                }
+              //  console.log(files.length);
+            });
+            });*@
+
     </script>
     }
 

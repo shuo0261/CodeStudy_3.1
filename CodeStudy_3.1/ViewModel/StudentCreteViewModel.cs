@@ -1,5 +1,6 @@
 ﻿using CodeStudy_3._1.Model.EnumTypes;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CodeStudy_3._1.ViewModel
@@ -24,5 +25,8 @@ namespace CodeStudy_3._1.ViewModel
         [Display(Name="头像")]
         public IFormFile PhotoPath { get; set; }
         //IFormFile位于Microsoft.AspNetCore.Http命名空间中，上传至服务器的文件均可通过IFormFile接口使用模型绑定的形式进行访问
+
+        //多文件上传
+        //public List<IFormFile> PhotoPath { get; set; }
     }
 }

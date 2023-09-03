@@ -7,7 +7,14 @@
 @{
     //Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "学生详情页";
+    @*单文件上传*@
     var photoPath = "~/images/" + (Model.student.PhotoPath ?? "image1.png");
+    @*多文件上传 *@
+    @*var photoPath = "~/images/image1.png";
+    if (Model.student.PhotoPath!=null)
+    {
+        photoPath = "~/images/" + Model.student.PhotoPath;
+    }*@
 }
 
 <h3>@Model.PageTiles</h3>

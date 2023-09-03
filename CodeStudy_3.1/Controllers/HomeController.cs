@@ -5,6 +5,7 @@ using CodeStudy_3._1.ViewModel;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using CodeStudy_3._1.Migrations;
 
 namespace CodeStudy_3._1.Controllers
 {
@@ -50,12 +51,31 @@ namespace CodeStudy_3._1.Controllers
             return View(studentEditViewModel);
         }
 
+        public IActionResult Edit(StudentEditViewModel model) {
+            if (ModelState.IsValid) {
+                Student student = _studentRepository.GetStudent(model.Id);
+                student.Name = model.Name;
+                student.Calssroom = model.Calssroom;
+                student.Major = model.Major;
+                student.Email = model.Email;
+                if (model.ExistringPhotoPath!=null) 
+                {
+                   string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", model.ExistringPhotoPath);
+                   System.IO.File.Delete(filePath);
+                 }
+                student.PhotoPath = ProcessUploadedFile(model);
+                Student updatestudent = _studentRepository.Update(student);
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
         //[HttpPost]
         public IActionResult Delte(int id) {
             Student student = _studentRepository.GetStudent(id);
             if (student != null)
             {
-                 _studentRepository.Delete(id);
+                _studentRepository.Delete(id);
                 //删除后刷新页面，可以使用return RedirectToAction("ActionName")方法来实现
                 return RedirectToAction("Index");
             }
@@ -74,28 +94,6 @@ namespace CodeStudy_3._1.Controllers
         public IActionResult Create(StudentCreteViewModel model)
         {
             if (ModelState.IsValid) {
-                string uniqueFileName = null;
-
-                /*单文件上传*/
-                if (model.PhotoPath != null) {
-                    //必须将图片文件上传到wwwroot的images文件夹中，要获取wwwroot文件夹的路径，需要使用ASP.NET Core提供的webHostEnvironment服务
-                    string uploadsFoldex = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                    //使用Guid可以确保文件名是唯一的
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.PhotoPath.FileName;
-                    string filePath = Path.Combine(uploadsFoldex, uniqueFileName);
-                    model.PhotoPath.CopyTo(new FileStream(filePath, FileMode.Create));
-                        }
-
-                /*多文件上传*/
-               /* if (model.PhotoPath != null && model.PhotoPath.Count > 0) {
-                    //循环每个选定的文件
-                    foreach (var photo in model.PhotoPath) {
-                        string uploadsFoldex = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                        uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
-                        string filePath = Path.Combine(uploadsFoldex, uniqueFileName);
-                        photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                    }
-                }*/
 
                 Student newstudent = new Student
                 {
@@ -104,24 +102,54 @@ namespace CodeStudy_3._1.Controllers
                     Major = model.Major,
                     Email = model.Email,
                     //将文件名保存在Student对象的PhotoPath属性中，被保存在数据库Student表中
-                    PhotoPath = uniqueFileName
+                    PhotoPath = ProcessUploadedFile(model)
                 };
                 _studentRepository.Add(newstudent);
                 return RedirectToAction("Detailsview", new { id = newstudent.Id });
             }
             return View();
         }
-            /*public IActionResult Create(Student student) {
-                /*在属性里添加Required后会判断值，如果为空或者不存在，就会验证失败，ModelState.IsValid属性会检查验证是否成功*/
-            /*if (ModelState.IsValid) {
-                Student newstudent = _studentRepository.Add(student);
-                return RedirectToAction("Detailsview", new { id = newstudent.Id });
-            }
-            return View();
-        }*/
 
-            //[Route("Home/Detailsview/{id?}")]
-            public ViewResult Detailsview(int id)
+        private string ProcessUploadedFile(StudentCreteViewModel model) {
+            string uniqueFileName = null;
+            if (model.PhotoPath.Count > 0) {
+                foreach (var photo in model.PhotoPath)
+                {
+                    //必须将图片文件上传到wwwroot的images文件夹中，要获取wwwroot文件夹的路径，需要使用ASP.NET Core提供的webHostEnvironment服务
+                    string uploadsFoldex = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                    //使用Guid可以确保文件名是唯一的
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
+                    string filePath = Path.Combine(uploadsFoldex, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        photo.CopyTo(fileStream);
+                    }
+                }
+            }
+            return uniqueFileName;
+            /*多文件上传*/
+            /* if (model.PhotoPath != null && model.PhotoPath.Count > 0) {
+                 //循环每个选定的文件
+                 foreach (var photo in model.PhotoPath) {
+                     string uploadsFoldex = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                     uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
+                     string filePath = Path.Combine(uploadsFoldex, uniqueFileName);
+                     photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                 }
+             }*/
+        }
+
+        /*public IActionResult Create(Student student) {
+            /*在属性里添加Required后会判断值，如果为空或者不存在，就会验证失败，ModelState.IsValid属性会检查验证是否成功*/
+        /*if (ModelState.IsValid) {
+            Student newstudent = _studentRepository.Add(student);
+            return RedirectToAction("Detailsview", new { id = newstudent.Id });
+        }
+        return View();
+    }*/
+
+        //[Route("Home/Detailsview/{id?}")]
+        public ViewResult Detailsview(int id)
         {
             //使用ViewModel将数据传递给视图
             //实例化HomeDetailsViewModel并存储Student详细信息和PageTiles
